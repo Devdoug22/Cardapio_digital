@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 @RequiredArgsConstructor // <-- O Lombok cria o construtor para os atributos 'final' automaticamente
 @Service
@@ -42,6 +43,20 @@ public class CardapioService {
 
        }
        repository.saveAndFlush(cardapioExistente);
+    }
+
+    @Transactional
+    public Cardapio applyDiscount(Long id, BigDecimal discountPercentage) {
+        if (discountPercentage.compareTo(BigDecimal.ONE) < 0 || discountPercentage.compareTo(new BigDecimal("50")) > 0) {
+            throw new IllegalArgumentException("O desconto deve estar entre 1% e 50%");
+        }
+
+        Cardapio cardapio = buscarItemById(id);
+        double discountMultiplier = discountPercentage.divide(new BigDecimal("100")).doubleValue();
+        double discountedPrice = cardapio.getPreco() * (1 - discountMultiplier);
+        cardapio.setPreco(discountedPrice);
+        
+        return repository.saveAndFlush(cardapio);
     }
 
 }

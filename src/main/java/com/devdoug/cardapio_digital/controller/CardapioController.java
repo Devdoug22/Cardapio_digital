@@ -3,10 +3,10 @@ package com.devdoug.cardapio_digital.controller;
 import com.devdoug.cardapio_digital.model.entity.Cardapio;
 import com.devdoug.cardapio_digital.service.CardapioService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -44,5 +44,11 @@ public class CardapioController {
     public ResponseEntity<Void> attITem(@PathVariable Long id, @RequestBody Cardapio cardapio) {
         cardapioService.attItem(cardapio, id);
         return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/{id}/desconto")
+    public ResponseEntity<Cardapio> aplicarDesconto(@PathVariable Long id, @RequestParam BigDecimal percentual) {
+        Cardapio cardapioAtualizado = cardapioService.applyDiscount(id, percentual);
+        return ResponseEntity.ok(cardapioAtualizado);
     }
 }
