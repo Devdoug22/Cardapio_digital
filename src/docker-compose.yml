@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  # Serviço 1: Banco de Dados PostgreSQL
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: cardapio-postgres
+    environment:
+      POSTGRES_DB: cardapio_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Serviço 2: Sua API Spring Boot
+  api-cardapio:
+    build: .
+    container_name: cardapio-api
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/cardapio_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    depends_on:
+      - postgres-db
+
+volumes:
+  postgres_data:

@@ -12,7 +12,7 @@
 	<artifactId>cardapio-digital</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>cardapio-digital</name>
-	<description>Demo project for Spring Boot</description>
+	<description>API RESTful para Gerenciamento de Cardápio Digital</description>
 
 	<properties>
 		<java.version>21</java.version>
@@ -32,11 +32,18 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
-		<!-- H2 Database -->
+		<!-- PostgreSQL Driver (Produção / Docker) -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- H2 Database (Mantido para testes automatizados) -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
+			<scope>test</scope>
 		</dependency>
 
 		<!-- Lombok -->
@@ -54,7 +61,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- SpringDoc OpenAPI Starter WebMVC UI -->
+		<!-- SpringDoc OpenAPI Starter WebMVC UI (Swagger) -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
