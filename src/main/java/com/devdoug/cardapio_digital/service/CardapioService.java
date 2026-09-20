@@ -1,5 +1,7 @@
 package com.devdoug.cardapio_digital.service;
 
+import com.devdoug.cardapio_digital.dto.CardapioRequestDTO;
+import com.devdoug.cardapio_digital.exception.CardapioNotFoundException;
 import com.devdoug.cardapio_digital.model.entity.Cardapio;
 import com.devdoug.cardapio_digital.model.repository.CardapioRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,13 +22,21 @@ public class CardapioService {
     }
 
     @Transactional // Garante a integridade da operação no banco
-    public void salvarItem(Cardapio cardapio) {
-        repository.saveAndFlush(cardapio);
+    public void salvarItem(CardapioRequestDTO dto) {
+        // 1. Converte o DTO recebido para a Entidade Cardapio
+        Cardapio novoItem = new Cardapio();
+        novoItem.setName(dto.name());
+        novoItem.setPreco(dto.price());
+        novoItem.setDescricao(dto.descricao());
+        novoItem.setImagemUrl(dto.imagemUrl());
+
+        // 2. Salva a Entidade no banco de dados
+        repository.save(novoItem);
     }
 
     public Cardapio buscarItemById(Long id) {
         return repository.findById(id).orElseThrow(
-                () -> new RuntimeException("Item não encontrado")
+                () -> new CardapioNotFoundException(id)
         );
     }
     @Transactional

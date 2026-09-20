@@ -1,5 +1,6 @@
 package com.devdoug.cardapio_digital.controller;
 
+import com.devdoug.cardapio_digital.dto.CardapioRequestDTO;
 import com.devdoug.cardapio_digital.model.entity.Cardapio;
 import com.devdoug.cardapio_digital.service.CardapioService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -8,7 +9,9 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
+
+import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
@@ -17,23 +20,21 @@ import org.springframework.http.ResponseEntity;
 import java.math.BigDecimal;
 import java.util.List;
 
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/cardapio")
 @RequiredArgsConstructor
-@Tag(name = "Cardápio", description = "API para gerenciamento de cardápio digital")
 public class CardapioController {
 
-    public final CardapioService cardapioService;
-    
+    private final CardapioService cardapioService;
+
     @PostMapping
     @Operation(summary = "Salvar novo item no cardápio", description = "Cadastra um novo item no cardápio digital")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "Item criado com sucesso"),
         @ApiResponse(responseCode = "400", description = "Dados inválidos")
     })
-    public ResponseEntity<Void> salvarItem(@RequestBody Cardapio cardapio) {
-        cardapioService.salvarItem(cardapio);
+    public ResponseEntity<Void> salvarItem(@RequestBody @Valid CardapioRequestDTO dto) {
+        cardapioService.salvarItem(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

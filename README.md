@@ -1,29 +1,31 @@
-# 🍽️ Menu Digital - Full-Stack App (Focus: Backend)
+# 🍽️ Cardápio Digital - API RESTful
 
-O **Menu Digital** é um sistema completo desenvolvido para a gestão e exibição de itens de restaurantes ou lanchonetes. O projeto foi construído separando estritamente as responsabilidades entre uma API REST robusta no ecossistema Java e uma interface de validação dinâmica em React.
+API RESTful desenvolvida em Java com Spring Boot para gerenciamento de itens de cardápio, focada em boas práticas de arquitetura, validação de dados e tratamento global de exceções.
 
-> **Nota de Arquitetura:** Como meu foco de carreira e estudos é 100% voltado para o **Desenvolvimento Backend**, utilizei ferramentas de Inteligência Artificial para acelerar a construção da interface visual em React. Isso me permitiu blindar meu tempo para focar na qualidade do código Java, padronização de rotas, injeção de dependências e regras de negócio.
+## 🚀 Tecnologias Utilizadas
+* **Java 17 / Spring Boot**
+* **Spring Data JPA & PostgreSQL / H2**
+* **Bean Validation (`spring-boot-starter-validation`)**
+* **Swagger / OpenAPI** (Documentação interativa da API)
+* **Postman** (Testes de integração e requisições HTTP)
 
----
+## 📌 Principais Funcionalidades & Arquitetura
+* **Validação de DTOs:** Uso de anotações `@Valid` para garantir a integridade dos dados antes da persistência.
+* **Tratamento Global de Exceções (`@RestControllerAdvice`):** Interceptação customizada de erros de validação (`MethodArgumentNotValidException`), IDs não encontrados e falhas de requisição HTTP, retornando respostas padronizadas com status HTTP adequados (`400 Bad Request`, `404 Not Found`, `405 Method Not Allowed`).
+* **Padrão Controller-Service-Repository:** Separação clara de responsabilidades da aplicação.
 
-## 🛠️ Tecnologias e Ferramentas
+## 🛠️ Endpoints Principais
 
-### Backend (Foco Principal)
-*   **Java 17**
-*   **Spring Boot 3.x**
-*   **Spring Data JPA** (Persistência e comunicação com o banco)
-*   **Lombok** (Produtividade e eliminação de código boilerplate através de anotações como `@RequiredArgsConstructor`)
-*   **PostgreSQL / MySQL** (Banco de dados relacional)
+| Método | Endpoint | Descrição |
+| :--- | :--- | :--- |
+| `POST` | `/cardapio` | Cadastra um novo item no cardápio (requer DTO validado) |
+| `GET` | `/cardapio` | Lista todos os itens cadastrados |
+| `GET` | `/cardapio/{id}` | Busca um item específico pelo ID |
+| `PUT` | `/cardapio/{id}` | Atualiza os dados de um item existente |
+| `DELETE` | `/cardapio/{id}` | Remove um item do cardápio |
 
-### Frontend (Interface de Validação)
-*   **React** (Componentização e gerenciamento de estado)
-*   **Axios** (Consumo da API REST)
-
----
-
-## 📐 Estrutura do Projeto
-
-O repositório está organizado de forma monorepo para facilitar a visualização do ecossistema:
-```text
-├── backend/       # API REST em Spring Boot
-└── frontend/      # Interface Web em React
+## 📖 Como Executar
+1. Clone o repositório: `git clone https://github.com/seu-usuario/Cardapio_digital.git`
+2. Configure as credenciais do banco de dados no `application.properties`.
+3. Execute a aplicação via Maven ou IDE: `./mvnw spring-boot:run`
+4. Acesse a documentação Swagger em: `http://localhost:8080/swagger-ui.html`

@@ -22,7 +22,9 @@ public class Cardapio {
     private String name;
     private double preco;
 
+    private String descricao;
+
     @Column(length = 1000)
-    private String img;
+    private String imagemUrl;
 
 }
